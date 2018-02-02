@@ -3,11 +3,10 @@ import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
 import pandas as pd
-import pandas.io.data as web
+import pandas_datareader.data as web
 import pprint
 import statsmodels.tsa.stattools as ts
-
-from pandas.stats.api import ols
+import statsmodels.api as sm
 
 def hurst(ts):
     lags = range(2,100)
@@ -64,12 +63,12 @@ if __name__ == "__main__":
     start = datetime.datetime(2012, 1, 1)
     end = datetime.datetime(2013, 1, 1)
 
-    arex = web.DataReader("AREX", "yahoo", start, end)
-    wll = web.DataReader("WLL", "yahoo", start, end)
+    arex = web.DataReader("AREX", "quandl", start, end)
+    wll = web.DataReader("WLL", "quandl", start, end)
 
     df = pd.DataFrame(index=arex.index)
-    df["AREX"] = arex["Adj Close"]
-    df["WLL"] = wll["Adj Close"]
+    df["AREX"] = arex["AdjClose"]
+    df["WLL"] = wll["AdjClose"]
 
     # Plot the two time series
     plot_price_series(df, "AREX", "WLL")
@@ -78,8 +77,8 @@ if __name__ == "__main__":
     plot_scatter_series(df, "AREX", "WLL")
 
     # Calculate optimal hedge ratio "beta"
-    res = ols(y=df['WLL'], x=df["AREX"])
-    beta_hr = res.beta.x
+    res = sm.regression.linear_model.OLS(df['WLL'].values, sm.add_constant(df["AREX"].values)).fit()
+    beta_hr = res.params[1]
 
     # Calculate the residuals of the linear combination
     df["res"] = df["WLL"] - beta_hr*df["AREX"]
