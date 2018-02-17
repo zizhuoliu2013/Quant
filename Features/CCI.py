@@ -31,3 +31,4 @@ if __name__ =='__main__':
     plt.ylabel('CCI values')
     plt.grid(True)
     plt.setp(plt.gca().get_xticklabels(), rotation=30)
+    plt.show()
