@@ -1,24 +1,20 @@
 # Load the necessary packages and modules
 import pandas as pd
-import pandas.io.data as web
+import pandas_datareader.data as web
 import matplotlib.pyplot as plt
-# Commodity Channel Index 
-def CCI(data, ndays): 
- TP = (data['High'] + data['Low'] + data['Close']) / 3 
- CCI = pd.Series((TP - pd.rolling_mean(TP, ndays)) / (0.015 * pd.rolling_std(TP, ndays)),
- name = 'CCI') 
- data = data.join(CCI) 
- return data
- 
+# Commodity Channel Index
+def CCI(data, ndays):
+    TP = (data['High'] + data['Low'] + data['Close']) / 3
+    CCI = pd.Series((TP - pd.rolling_mean(TP, ndays)) / (0.015 * pd.rolling_std(TP, ndays)),name = 'CCI')
+    data = data.join(CCI)
+    return data
 # Retrieve the Nifty data from Yahoo finance:
-data = web.DataReader('^NSEI',data_source='yahoo',start='1/1/2014', end='1/1/2016')
+data = web.DataReader('^NSEI',data_source='quandl',start='1/1/2014', end='1/1/2016')
 data = pd.DataFrame(data)
- 
 # Compute the Commodity Channel Index(CCI) for NIFTY based on the 20-day Moving average
 n = 20
 NIFTY_CCI = CCI(data, n)
 CCI = NIFTY_CCI['CCI']
- 
 # Plotting the Price Series chart and the Commodity Channel index below
 fig = plt.figure(figsize=(7,5))
 ax = fig.add_subplot(2, 1, 1)
