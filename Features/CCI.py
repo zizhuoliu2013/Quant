@@ -10,8 +10,8 @@ def CCI(data, ndays):
     return data
 
 if __name__ =='__main__':
-    # Retrieve the Nifty data from Yahoo finance:
-    data = web.DataReader('GXC',data_source='yahoo',start='1/1/2017', end='1/1/2018')
+    # Retrieve the Nifty data from Quandl:
+    data = web.DataReader('AAPL',data_source='quandl',start='1/1/2017', end='1/1/2018')
     data = pd.DataFrame(data)
     # Compute the Commodity Channel Index(CCI) for NIFTY based on the 20-day Moving average
     n = 20
@@ -22,7 +22,7 @@ if __name__ =='__main__':
     ax = fig.add_subplot(2, 1, 1)
     ax.set_xticklabels([])
     plt.plot(data['Close'],lw=1)
-    plt.title('NSE Price Chart')
+    plt.title('AAPL Price Chart')
     plt.ylabel('Close Price')
     plt.grid(True)
     bx = fig.add_subplot(2, 1, 2)

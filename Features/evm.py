@@ -13,8 +13,8 @@ def EVM(data, ndays):
     return data
 
 if __name__ == '__main__':
-    # Retrieve the AAPL data from Yahoo finance:
-    data = web.DataReader('AAPL',data_source='yahoo',start='1/1/2015', end='1/1/2016')
+    # Retrieve the AAPL data from quandl
+    data = web.DataReader('AAPL',data_source='quandl',start='1/1/2015', end='1/1/2016')
     data = pd.DataFrame(data)
 
     # Compute the 14-day Ease of Movement for AAPL
@@ -36,3 +36,4 @@ if __name__ == '__main__':
     plt.ylabel('EVM values')
     plt.grid(True)
     plt.setp(plt.gca().get_xticklabels(), rotation=30)
+    plt.show()

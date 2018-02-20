@@ -14,8 +14,8 @@ def ROC(data,n):
     return data
 
 if __name__ == '__main__':
-    # Retrieve the NIFTY data from Yahoo finance:
-    data = web.DataReader('^NSEI',data_source='yahoo',start='6/1/2015',end='1/1/2016')
+    # Retrieve the NIFTY data from quandl
+    data = web.DataReader('AAPL',data_source='quandl',start='6/1/2015',end='1/1/2016')
     data = pd.DataFrame(data)
 
     # Compute the 5-period Rate of Change for NIFTY
@@ -37,3 +37,4 @@ if __name__ == '__main__':
     plt.ylabel('ROC values')
     plt.grid(True)
     plt.setp(plt.gca().get_xticklabels(), rotation=30)
+    plt.show()
