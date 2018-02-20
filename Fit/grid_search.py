@@ -7,11 +7,8 @@ from __future__ import print_function
 
 import datetime
 
-import sklearn
-from sklearn import cross_validation
 from sklearn.cross_validation import train_test_split
 from sklearn.grid_search import GridSearchCV
-from sklearn.metrics import classification_report
 from sklearn.svm import SVC
 
 from create_lagged_series import create_lagged_series
@@ -20,11 +17,11 @@ from create_lagged_series import create_lagged_series
 if __name__ == "__main__":
     # Create a lagged series of the S&P500 US stock market index
     snpret = create_lagged_series(
-        "^GSPC", datetime.datetime(2001,1,10), 
+        "^GSPC", datetime.datetime(2001,1,10),
         datetime.datetime(2005,12,31), lags=5
     )
 
-    # Use the prior two days of returns as predictor 
+    # Use the prior two days of returns as predictor
     # values, with direction as the response
     X = snpret[["Lag1","Lag2"]]
     y = snpret["Direction"]
@@ -45,7 +42,7 @@ if __name__ == "__main__":
 
     print("Optimised parameters found on training set:")
     print(model.best_estimator_, "\n")
-    
+
     print("Grid scores calculated on training set:")
     for params, mean_score, scores in model.grid_scores_:
         print("%0.3f for %r" % (mean_score, params))
